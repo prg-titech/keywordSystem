@@ -14,7 +14,7 @@ public class MethodInvocation extends Expression {
 	@Override
 	public String toString() {
 		StringBuffer result = new StringBuffer();
-		result.append("("+args[0]+")."+name+"(");
+		result.append(""+args[0]+"."+name+"(");
 		String separator = "";
 		for (int i=1;i<arity; i++) {
 			result.append(separator+args[i]);

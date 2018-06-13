@@ -23,6 +23,7 @@ public class MethodName {
 		
 		Vector<MethodName> allMethodName = new Vector<MethodName>();
 		allMethodName.add(new MethodName("concat",new Type[]{new Type("String"),new Type("String")}));
+		allMethodName.add(new MethodName("add",new Type[]{new Type("String")}));
 		return allMethodName;
 	}
 

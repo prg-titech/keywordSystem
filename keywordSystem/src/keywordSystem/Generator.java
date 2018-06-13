@@ -9,23 +9,13 @@ public abstract class Generator {
 			return new Vector<Expression>();
 		} else {
 			Vector<Expression> result = new Vector<Expression>();
-			for (Generator g : allExpressionTypeGeneratorsBesideMethodInvocation()) {
+			for (Generator g : allExpressionTypeGenerators()) {
 				g.generate_exact_a(depth, result);
-			}
-			
-			expressionFromMethodInvocationGenerator(depth, result);	
+			}	
 			return result;
 		}
 	}
 	
-	private static void expressionFromMethodInvocationGenerator(int depth, Vector<Expression> result) {
-		for(MethodName methodName : MethodName.allMethodName()) {
-			MethodInvocationGenerator methodInvGenerator = new MethodInvocationGenerator();
-			methodInvGenerator.setName(methodName.name);
-			methodInvGenerator.setArity(methodName.types.length);
-			methodInvGenerator.generate_exact_a(depth, result);
-		}
-	}
 
 	private Vector<Expression> generate_with_depth_or_shallower(int depth) {
 		Vector<Expression> result = new Vector<Expression>();
@@ -76,9 +66,17 @@ public abstract class Generator {
 
 	abstract int arity();
 
-	private static  Generator[] allExpressionTypeGeneratorsBesideMethodInvocation() {
-		return new Generator[]{new VarGenerator(),new IntGenerator()
-				 , new BinaryOpGenerator()
-				};
+	private static  Vector<Generator> allExpressionTypeGenerators() {
+		Vector<Generator> allGenerator = new Vector<Generator>();
+		allGenerator.add(new VarGenerator());
+		allGenerator.add(new IntGenerator());
+		allGenerator.add(new BinaryOpGenerator());
+		for(MethodName methodName : MethodName.allMethodName()) {
+			MethodInvocationGenerator methodInvGenerator = new MethodInvocationGenerator();
+			methodInvGenerator.setName(methodName.name);
+			methodInvGenerator.setArity(methodName.types.length);
+			allGenerator.add(methodInvGenerator);
+		}
+		return allGenerator;
 	}
 }
