@@ -19,7 +19,7 @@ public class Int extends Expression {
 	}
 
 	@Override
-	public float getScore() {
+	public float getScore(String keyword) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

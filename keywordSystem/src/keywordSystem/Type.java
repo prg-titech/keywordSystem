@@ -1,9 +1,13 @@
 package keywordSystem;
 
+import java.util.Vector;
 
 public class Type {
 	private String type;
-
+	Vector<Type> subtype = new Vector<Type>();
+	public void initSubtype() {
+		subtype.add(new Type(type));
+	}
 	public Type(String type) {
 		this.type = type;
 	}
@@ -11,7 +15,15 @@ public class Type {
 	public String toString() {
 		return type;
 	}
-
+	
+	public Vector<Type> setSubtype(Type new_subtype){
+		this.subtype.add(new_subtype);
+		return subtype;
+	}
+	public Vector<Type> getSubtype(){
+		initSubtype();
+		return subtype;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

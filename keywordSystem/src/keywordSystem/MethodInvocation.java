@@ -30,7 +30,7 @@ public class MethodInvocation extends Expression {
 		return args[0].getType();
 	}
 	@Override
-	public float getScore() {
+	public float getScore(String keyword) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

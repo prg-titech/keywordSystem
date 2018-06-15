@@ -19,7 +19,7 @@ public abstract class Expression {
 
 	abstract public Type getType();
 
-	abstract public float getScore();
+	abstract public float getScore(String keywords);
 
 	// define add function with using BigDecimal class
 	public float addPrecise(float num1, float num2) {

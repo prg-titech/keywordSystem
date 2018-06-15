@@ -46,7 +46,7 @@ public class BinOp extends Expression {
 		this.operand2 = operand2;
 	}
 	@Override
-	public float getScore() {
+	public float getScore(String keyword) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
