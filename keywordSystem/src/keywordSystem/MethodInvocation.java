@@ -1,20 +1,22 @@
 package keywordSystem;
 
+import java.util.List;
+
 public class MethodInvocation extends Expression {
 
-	String name;
+	MethodName name;
 	int arity;
 	Expression[] args;
-	public MethodInvocation(String name, int arity, Expression[] args) {
+	public MethodInvocation(MethodName name, Expression[] args) {
 		super();
 		this.name = name;
-		this.arity = arity;
+//		this.arity = arity;
 		this.args = args.clone();
 	}
 	@Override
 	public String toString() {
 		StringBuffer result = new StringBuffer();
-		result.append(""+args[0]+"."+name+"(");
+		result.append(""+args[0]+"."+name.toString()+"(");
 		String separator = "";
 		for (int i=1;i<arity; i++) {
 			result.append(separator+args[i]);
@@ -30,9 +32,13 @@ public class MethodInvocation extends Expression {
 		return args[0].getType();
 	}
 	@Override
-	public float getScore(String keyword) {
-		// TODO Auto-generated method stub
-		return 0;
+	public float getScore(List<String> keywords) {
+		float score = 0;
+		score = this.name.getScore(keywords);
+		for(int i = 0; i < args.length; i++){
+			score = addPrecise(score,args[i].getScore(keywords));
+		}
+		return score;
 	}
 
 }

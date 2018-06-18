@@ -1,5 +1,7 @@
 package keywordSystem;
 
+import java.util.List;
+
 public class Var extends Expression {
 	private String name;
 	private Type type;
@@ -24,6 +26,10 @@ public class Var extends Expression {
 	public void setType(Type type) {
 		this.type = type;
 	}
+	
+	public Label label() {
+		return new Label().convertToLabel(name);
+	}
 
 	@Override
 	public String toString() {
@@ -32,9 +38,20 @@ public class Var extends Expression {
 	}
 
 	@Override
-	public float getScore(String keyword) {
-		// TODO Auto-generated method stub
-		return 0;
+	public float getScore(List<String> keywords) {
+		float score = addPrecise(DEFSCORE,LMVAR);
+		List<String> name_label = new Label().convertToLabel(name).label;
+		int words_size = name_label.size();
+		for(int i = 0; i < words_size; i++) {
+			if (keywords.contains(name_label.get(i))) {
+				score = addPrecise(score, WIK);
+
+			} else {
+				score = addPrecise(score, -WNIK);
+			}	
+		}
+
+		return score;
 	}
 
 }

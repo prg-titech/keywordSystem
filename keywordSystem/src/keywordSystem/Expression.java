@@ -1,6 +1,8 @@
 package keywordSystem;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 import keywordSystem.Type;
 
@@ -19,7 +21,13 @@ public abstract class Expression {
 
 	abstract public Type getType();
 
-	abstract public float getScore(String keywords);
+	public float getScore(String keywords) {
+		;
+		return this.getScore(Arrays.asList(keywords.toLowerCase().split(" ")));
+	}
+
+	abstract float getScore(List<String> keywords);
+
 
 	// define add function with using BigDecimal class
 	public float addPrecise(float num1, float num2) {

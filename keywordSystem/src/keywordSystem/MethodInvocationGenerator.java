@@ -4,7 +4,7 @@ import java.util.Vector;
 
 public class MethodInvocationGenerator extends Generator implements IMethodName{
 	int arity;
-	String name;
+	MethodName name;
 	
 	int arity() {
 		return arity;
@@ -12,12 +12,12 @@ public class MethodInvocationGenerator extends Generator implements IMethodName{
 	
 	@Override
 	void generateWithSubExps(Expression[] subExps, Vector<Expression> result) {		
-		result.add(new MethodInvocation(name,arity,subExps));
+		result.add(new MethodInvocation(name,subExps));
 
 	}
 
 	@Override
-	public String getName() {
+	public MethodName getName() {
 		// TODO Auto-generated method stub
 		return name;
 	}
@@ -29,7 +29,7 @@ public class MethodInvocationGenerator extends Generator implements IMethodName{
 	}
 
 	@Override
-	public void setName(String name) {
+	public void setName(MethodName name) {
 		// TODO Auto-generated method stub
 		this.name = name;
 	}

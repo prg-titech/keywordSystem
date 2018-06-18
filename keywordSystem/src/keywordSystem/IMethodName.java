@@ -1,8 +1,8 @@
 package keywordSystem;
 
 public interface IMethodName {
-	public String getName();
+	public MethodName getName();
 	public int getArity();
-	public void setName(String name);
+	public void setName(MethodName name);
 	public void setArity(int arity);
 }

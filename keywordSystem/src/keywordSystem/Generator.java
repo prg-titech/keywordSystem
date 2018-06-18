@@ -73,7 +73,7 @@ public abstract class Generator {
 		allGenerator.add(new BinaryOpGenerator());
 		for(MethodName methodName : MethodName.allMethodName()) {
 			MethodInvocationGenerator methodInvGenerator = new MethodInvocationGenerator();
-			methodInvGenerator.setName(methodName.name);
+			methodInvGenerator.setName(methodName);
 			methodInvGenerator.setArity(methodName.types.length);
 			allGenerator.add(methodInvGenerator);
 		}

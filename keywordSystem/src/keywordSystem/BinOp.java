@@ -1,5 +1,7 @@
 package keywordSystem;
 
+import java.util.List;
+
 public class BinOp extends Expression {
 	private String operator;
 	private Expression operand1;
@@ -46,9 +48,13 @@ public class BinOp extends Expression {
 		this.operand2 = operand2;
 	}
 	@Override
-	public float getScore(String keyword) {
-		// TODO Auto-generated method stub
-		return 0;
+	public float getScore(List<String> keywords) {
+		float score = 0;
+		float score_operand1 = this.getOperand1().getScore(keywords);
+		float score_operand2 = this.getOperand2().getScore(keywords);
+		
+		score = addPrecise(score_operand1,score_operand2);
+		return score;
 	}
 
 }
