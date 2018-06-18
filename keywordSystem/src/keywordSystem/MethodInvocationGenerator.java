@@ -39,5 +39,6 @@ public class MethodInvocationGenerator extends Generator implements IMethodName{
 		// TODO Auto-generated method stub
 		this.arity = arity;
 	}
+	
 
 }

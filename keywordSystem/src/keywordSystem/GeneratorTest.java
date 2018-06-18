@@ -1,7 +1,7 @@
 package keywordSystem;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
+//import static org.junit.jupiter.api.Assertions.*;
 
 
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@ class GeneratorTest {
 	void testGetScore() {
 		String keyword = "add line";
 		Var var1 = new Var("src", new Type("BufferReader"));
-		// scr ==> -0.059
+		// src ==> -0.059
 		assertEquals(-0.059f, var1.getScore(keyword), 0);
 		// 1 ==> -0.06
 		assertEquals(-0.06f,new Int(1).getScore(keyword),0);

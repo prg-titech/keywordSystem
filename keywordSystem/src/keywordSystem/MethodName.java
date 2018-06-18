@@ -66,5 +66,7 @@ public class MethodName {
 	public float addPrecise(float num1, float num2) {
 		return new BigDecimal(Float.toString(num1)).add(new BigDecimal(Float.toString(num2))).floatValue();
 	}
+	
+	
 
 }

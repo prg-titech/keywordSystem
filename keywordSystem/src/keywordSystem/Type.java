@@ -6,7 +6,7 @@ public class Type {
 	private String type;
 	Vector<Type> subtype = new Vector<Type>();
 	public void initSubtype() {
-		subtype.add(new Type(type));
+		subtype.add(this);
 	}
 	public Type(String type) {
 		this.type = type;

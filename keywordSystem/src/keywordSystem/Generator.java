@@ -77,6 +77,11 @@ public abstract class Generator {
 			methodInvGenerator.setArity(methodName.types.length);
 			allGenerator.add(methodInvGenerator);
 		}
+		/*
+		 * allGenerator.add(bestRoot(t,i));
+		 */
 		return allGenerator;
 	}
+	
+	
 }
