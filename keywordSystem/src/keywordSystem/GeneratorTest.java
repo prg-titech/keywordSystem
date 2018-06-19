@@ -10,10 +10,13 @@ class GeneratorTest {
 
 	@Test
 	void testGenerate_exact() {
-		// Generator.generate_exact(3).stream().forEach(System.out::println);
-		assertEquals(Generator.generate_exact(1).size(), 3);
-		assertEquals(Generator.generate_exact(2).size(), 12);
+//		 Generator.generate_exact(2).stream().forEach(System.out::println);
+		assertEquals(Generator.generate_exact(1).size(), 4);
+		assertEquals(Generator.generate_exact(2).size(), 20);
+		assertEquals(Generator.generate_exact(3).size(), 580);
 	}
+	
+	
 
 	@Test
 	void testConvertToLabel() {

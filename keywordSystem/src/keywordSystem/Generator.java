@@ -9,7 +9,7 @@ public abstract class Generator {
 			return new Vector<Expression>();
 		} else {
 			Vector<Expression> result = new Vector<Expression>();
-			for (Generator g : allExpressionTypeGenerators()) {
+			for (Generator g : allExpressionTypeGenerators(depth)) {
 				g.generate_exact_a(depth, result);
 			}	
 			return result;
@@ -66,22 +66,25 @@ public abstract class Generator {
 
 	abstract int arity();
 
-	private static  Vector<Generator> allExpressionTypeGenerators() {
+	private static  Vector<Generator> allExpressionTypeGenerators(int depth) {
 		Vector<Generator> allGenerator = new Vector<Generator>();
-		allGenerator.add(new VarGenerator());
 		allGenerator.add(new IntGenerator());
+		allGenerator.add(new VarGenerator());
 		allGenerator.add(new BinaryOpGenerator());
 		for(MethodName methodName : MethodName.allMethodName()) {
 			MethodInvocationGenerator methodInvGenerator = new MethodInvocationGenerator();
 			methodInvGenerator.setName(methodName);
-			methodInvGenerator.setArity(methodName.types.length);
 			allGenerator.add(methodInvGenerator);
 		}
-		/*
-		 * allGenerator.add(bestRoot(t,i));
-		 */
+
 		return allGenerator;
 	}
+	
+	
+	
+	
+
+
 	
 	
 }

@@ -3,15 +3,15 @@ package keywordSystem;
 import java.util.Vector;
 
 public class MethodInvocationGenerator extends Generator implements IMethodName{
-	int arity;
 	MethodName name;
 	
 	int arity() {
-		return arity;
+		return name.types.length;
 	}
 	
 	@Override
-	void generateWithSubExps(Expression[] subExps, Vector<Expression> result) {		
+	void generateWithSubExps(Expression[] subExps, Vector<Expression> result) {
+
 		result.add(new MethodInvocation(name,subExps));
 
 	}
@@ -22,11 +22,6 @@ public class MethodInvocationGenerator extends Generator implements IMethodName{
 		return name;
 	}
 
-	@Override
-	public int getArity() {
-		// TODO Auto-generated method stub
-		return arity;
-	}
 
 	@Override
 	public void setName(MethodName name) {
@@ -34,11 +29,6 @@ public class MethodInvocationGenerator extends Generator implements IMethodName{
 		this.name = name;
 	}
 
-	@Override
-	public void setArity(int arity) {
-		// TODO Auto-generated method stub
-		this.arity = arity;
-	}
 	
 
 }

@@ -5,13 +5,22 @@ import java.util.Vector;
 public class Type {
 	private String type;
 	Vector<Type> subtype = new Vector<Type>();
+	// represent all possible types in whole system
+	Vector<Type> allType = new Vector<Type>();
+
+	public Type() {
+		
+	}
+	
+	public Type(String type) {
+		this.type = type;
+		if(!allType.contains(this)) {
+			allType.add(this);
+		}
+	}
 	public void initSubtype() {
 		subtype.add(this);
 	}
-	public Type(String type) {
-		this.type = type;
-	}
-
 	public String toString() {
 		return type;
 	}
@@ -24,6 +33,15 @@ public class Type {
 		initSubtype();
 		return subtype;
 	}
+	
+	public Vector<Type> getAllType() {
+		return allType;
+	}
+
+	public void setAllType(Vector<Type> allType) {
+		this.allType = allType;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

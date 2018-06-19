@@ -40,7 +40,7 @@ public class Var extends Expression {
 	@Override
 	public float getScore(List<String> keywords) {
 		float score = addPrecise(DEFSCORE,LMVAR);
-		List<String> name_label = new Label().convertToLabel(name).label;
+		List<String> name_label = this.label().label;
 		int words_size = name_label.size();
 		for(int i = 0; i < words_size; i++) {
 			if (keywords.contains(name_label.get(i))) {

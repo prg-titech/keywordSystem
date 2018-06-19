@@ -22,7 +22,6 @@ public abstract class Expression {
 	abstract public Type getType();
 
 	public float getScore(String keywords) {
-		;
 		return this.getScore(Arrays.asList(keywords.toLowerCase().split(" ")));
 	}
 
