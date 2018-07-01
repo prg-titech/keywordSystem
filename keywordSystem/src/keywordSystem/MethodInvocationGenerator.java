@@ -2,32 +2,25 @@ package keywordSystem;
 
 import java.util.Vector;
 
-public class MethodInvocationGenerator extends Generator implements IMethodName{
+public class MethodInvocationGenerator extends Generator {
 	MethodName name;
 	
 	int arity() {
+		//部分式の型のlist
 		return name.types.length;
 	}
 	
 	@Override
-	void generateWithSubExps(Expression[] subExps, Vector<Expression> result) {
+	void generateWithSubExps(Expression[] subExps, Vector<Expression> result,Type type, String keywords) {
 
 		result.add(new MethodInvocation(name,subExps));
 
 	}
 
-	@Override
-	public MethodName getName() {
-		// TODO Auto-generated method stub
-		return name;
-	}
-
-
-	@Override
 	public void setName(MethodName name) {
-		// TODO Auto-generated method stub
 		this.name = name;
 	}
+
 
 	
 

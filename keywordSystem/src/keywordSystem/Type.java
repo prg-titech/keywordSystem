@@ -6,7 +6,7 @@ public class Type {
 	private String type;
 	Vector<Type> subtype = new Vector<Type>();
 	// represent all possible types in whole system
-	Vector<Type> allType = new Vector<Type>();
+	static Vector<Type> allType = new Vector<Type>();
 
 	public Type() {
 		
@@ -42,6 +42,10 @@ public class Type {
 		this.allType = allType;
 	}
 	
+	public boolean matchSubtype(Type type, Type ExpressionType) {
+		return type.getSubtype().contains(ExpressionType);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -49,7 +53,7 @@ public class Type {
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

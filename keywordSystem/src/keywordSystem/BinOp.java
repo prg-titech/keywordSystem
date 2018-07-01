@@ -3,10 +3,10 @@ package keywordSystem;
 import java.util.List;
 
 public class BinOp extends Expression {
-	private String operator;
+	private Operator operator;
 	private Expression operand1;
 	private Expression operand2;
-	public BinOp(String operator, Expression operand1, Expression operand2) {
+	public BinOp(Operator operator, Expression operand1, Expression operand2) {
 		super();
 		this.setOperator(operator);
 		this.setOperand1(operand1);
@@ -29,10 +29,10 @@ public class BinOp extends Expression {
 					null
 				;
 	}
-	public String getOperator() {
+	public Operator getOperator() {
 		return operator;
 	}
-	public void setOperator(String operator) {
+	public void setOperator(Operator operator) {
 		this.operator = operator;
 	}
 	public Expression getOperand1() {

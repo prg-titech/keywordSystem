@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Int extends Expression {
 	public int i;
-	Type type_integer = new Type("String");
+	Type type_integer = new Type("Integer");
 
 	public Int(int i) {
 		this.i = i;
@@ -24,7 +24,7 @@ public class Int extends Expression {
 
 	@Override
 	public float getScore(List<String> keywords) {
-		float score = DEFSCORE;
+		float score = addPrecise(DEFSCORE,LMVAR);
 		if (keywords.contains(i+"")) {
 			score = addPrecise(score, WIK);
 

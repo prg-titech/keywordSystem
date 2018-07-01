@@ -28,8 +28,8 @@ public class MethodName {
 		return types[0];
 	}
 
-	public Label label() {
-		return new Label().convertToLabel(name);
+	public List<String> label() {
+		return new Label().convertToLabel(name).label;
 	}
 
 	public boolean matchType(Type type, int pos) {
@@ -50,7 +50,7 @@ public class MethodName {
 
 	public float getScore(List<String> keywords) {
 		float score = DEFSCORE;
-		List<String> name_label = new Label().convertToLabel(name).label;
+		List<String> name_label = this.label();
 		int words_size = name_label.size();
 		for(int i = 0; i < words_size; i++) {
 			if (keywords.contains(name_label.get(i))) {
