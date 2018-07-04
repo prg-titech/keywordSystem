@@ -5,25 +5,23 @@ import java.util.Vector;
 public class VarGenerator extends Generator {
 
 	// add Var Expression function could be added later
+	
+	Vector<Expression> allVarExpressionWithTypeT = new Vector<Expression>();
 
 	/*
 	 * given Type and keyword , return all expressions with type belong Type 
 	 * and has the bigest score according to keywords
 	 */
 	@Override
-	void generateWithSubExps(Expression[] subExps, Vector<Expression> result,Type type,String keyword) {
-		for(Expression varExpression : this.allVarExpression()) {
-			if(new Type().matchSubtype(type, varExpression.getType())) {
-				result.add(varExpression);
-			}
-		}
-		if(result.size() >= 1) {
+	void generateWithSubExps(Expression[] subExps, Vector<Expression> result,String keyword) {
+		if(allVarExpressionWithTypeT.size() > 0) {
+			result.addAll(allVarExpressionWithTypeT);
 			selectMaxVarExpressions(result,keyword);
 		}
 	}
 
 
-	private Vector<Expression> allVarExpression() {
+	private Vector<Expression> getAllVarExpression() {
 		Vector<Expression> allVarExpression = new Vector<Expression>();
 		allVarExpression.add(new Var("a",new Type("String")));
 		allVarExpression.add(new Var("b",new Type("String")));
@@ -34,8 +32,27 @@ public class VarGenerator extends Generator {
 
 	@Override
 	int arity() {
-		// TODO Auto-generated method stub
 		return 0;
+	}
+
+
+	public VarGenerator getVarGenerator(Type t) {
+		Vector<Expression> allVarExpression = this.getAllVarExpression();
+		int size_allVarExp = allVarExpression.size();
+		for(int i=0 ; i<size_allVarExp ; i++) {
+			Expression varExp_I = allVarExpression.get(i);
+			if(varExp_I.getType().equals(t)) {
+				this.allVarExpressionWithTypeT.add(varExp_I);
+			}
+		}
+		return this;
+		
+	}
+
+
+	@Override
+	Type[] types() {
+		return new Type[] {};
 	}
 
 }

@@ -5,7 +5,7 @@ import java.util.Vector;
 public class BinaryOpGenerator extends Generator {
 	Operator operator;
 	@Override
-	void generateWithSubExps(Expression[] subExps, Vector<Expression> result , Type type , String keywords) {
+	void generateWithSubExps(Expression[] subExps, Vector<Expression> result , String keywords) {
 		result.add(new BinOp(operator,subExps[0],subExps[1]));
 
 	}
@@ -19,6 +19,12 @@ public class BinaryOpGenerator extends Generator {
 	public void setOperator(Operator operator) {
 		this.operator=operator;
 		
+	}
+
+	@Override
+	Type[] types() {
+		// TODO Auto-generated method stub
+		return operator.types;
 	}
 
 	

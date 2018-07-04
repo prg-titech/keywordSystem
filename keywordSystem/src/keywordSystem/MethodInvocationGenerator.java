@@ -11,7 +11,7 @@ public class MethodInvocationGenerator extends Generator {
 	}
 	
 	@Override
-	void generateWithSubExps(Expression[] subExps, Vector<Expression> result,Type type, String keywords) {
+	void generateWithSubExps(Expression[] subExps, Vector<Expression> result, String keywords) {
 
 		result.add(new MethodInvocation(name,subExps));
 
@@ -19,6 +19,12 @@ public class MethodInvocationGenerator extends Generator {
 
 	public void setName(MethodName name) {
 		this.name = name;
+	}
+
+	@Override
+	Type[] types() {
+		// TODO Auto-generated method stub
+		return name.types;
 	}
 
 

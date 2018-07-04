@@ -8,15 +8,13 @@ public class Type {
 	// represent all possible types in whole system
 	static Vector<Type> allType = new Vector<Type>();
 
+
 	public Type() {
 		
 	}
 	
 	public Type(String type) {
 		this.type = type;
-		if(!allType.contains(this)) {
-			allType.add(this);
-		}
 	}
 	public void initSubtype() {
 		subtype.add(this);
@@ -35,6 +33,9 @@ public class Type {
 	}
 	
 	public Vector<Type> getAllType() {
+		allType.add(new Type("String"));
+		allType.add(new Type("Integer"));
+		allType.add(new Type("BufferReader"));
 		return allType;
 	}
 

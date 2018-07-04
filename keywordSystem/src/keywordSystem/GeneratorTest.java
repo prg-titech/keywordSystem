@@ -79,21 +79,35 @@ class GeneratorTest {
 //		// if keywords is "a" and want a "Integer" type expression then the result is "1" & "i"
 		
 		String keyword = "s"; 
-		assertEquals(Generator.generate_exact(1, new Type("String"), keyword).get(0).toString(),"a");
-		assertEquals(Generator.generate_exact(1, new Type("String"), keyword).get(1).toString(),"b");
-		assertEquals(Generator.generate_exact(1, new Type("Integer"), keyword).get(0).toString(),"1");
+//		System.out.println(Generator.generate_exact(1, new Type("String"), keyword).size());
+//		assertEquals(Generator.generate_exact(1, new Type("String"), keyword).get(0).toString(),"a");
+//		assertEquals(Generator.generate_exact(1, new Type("String"), keyword).get(1).toString(),"b");
+//		assertEquals(Generator.generate_exact(1, new Type("Integer"), keyword).get(0).toString(),"1");
 		assertEquals(Generator.generate_exact(1, new Type("Integer"), keyword).get(1).toString(),"i");
-//		Generator.generate_exact(2, new Type("String"), keyword).stream().forEach(System.out::println);
+		Generator.allMaxExpression.clear();
+		Generator.generate_exact(1, new Type("String"), keyword);
+//		Generator.generate_exact(1, new Type("String"), keyword).stream().forEach(System.out::println);
 		
 		
 	}
-	
 	@Test
 	void testAllMaxExpressions() {
-		String keywords = "s";
-		Vector<MaxExpression> allMaxExpression = new Vector<MaxExpression>();
-		new MaxExpression().addAllMaxExpression(allMaxExpression, 1, keywords);
-		assertEquals(allMaxExpression.get(1).expression.get(1).toString(),"i");
+		
+	}
+	@Test
+	void testGenerateWithSubExp() {
+		Vector<Expression> result = new Vector<Expression>();
+		new IntGenerator().getIntGenerator(new Type("String")).generateWithSubExps(new Expression[0], result, "s");
+//		System.out.println(result.size());
+	}
+	
+	
+	@Test
+	void testAllExpressionGeneratorsWithTypeT() {
+		String keyword = "s";
+		Vector<Generator> gs = new Vector<Generator>();
+		gs.addAll(Generator.allExpressionGeneratorsWithTypeT(new Type("String")));
+		assertEquals(gs.size(),4);
 	}
 	
 }

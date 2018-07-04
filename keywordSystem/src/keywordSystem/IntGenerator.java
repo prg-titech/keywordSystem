@@ -3,20 +3,26 @@ package keywordSystem;
 import java.util.Vector;
 
 public class IntGenerator extends Generator {
-	void generateWithSubExps(Expression[] subExps, Vector<Expression> result,Type type, String keyword) {
-		for(Expression intExpression : this.allIntExpression()) {
-			if(new Type().matchSubtype(type,intExpression.getType())) {
-				result.add(intExpression);
-			}
+	Vector<Expression> allIntExpressionWithTypeT = new Vector<Expression>();
+	public IntGenerator getIntGenerator(Type t) {
+		if(t.toString().equals("Integer")) {
+			allIntExpressionWithTypeT.addAll(this.getAllIntExpression());
 		}
-		if(result.size() >= 1) {
+		return this;
+	}
+
+
+	void generateWithSubExps(Expression[] subExps, Vector<Expression> result, String keyword) {
+
+		if(allIntExpressionWithTypeT.size() > 0) {
+			result.addAll(allIntExpressionWithTypeT);
 			selectMaxVarExpressions(result,keyword);
 		}
 
 	}
 
 
-	private Vector<Expression> allIntExpression() {
+	private Vector<Expression> getAllIntExpression() {
 		Vector<Expression> allIntExpression = new Vector<Expression>();
 		allIntExpression.add(new Int(1));
 		return allIntExpression;
@@ -26,6 +32,13 @@ public class IntGenerator extends Generator {
 	int arity() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+
+	@Override
+	Type[] types() {
+		// TODO Auto-generated method stub
+		return new Type[] {};
 	}
 
 }
