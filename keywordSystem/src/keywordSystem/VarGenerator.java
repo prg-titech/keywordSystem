@@ -14,10 +14,7 @@ public class VarGenerator extends Generator {
 	 */
 	@Override
 	void generateWithSubExps(Expression[] subExps, Vector<Expression> result,String keyword) {
-		if(allVarExpressionWithTypeT.size() > 0) {
-			result.addAll(allVarExpressionWithTypeT);
-			selectMaxVarExpressions(result,keyword);
-		}
+		result.addAll(allVarExpressionWithTypeT);
 	}
 
 

@@ -7,7 +7,7 @@ public abstract class Generator {
 	static Vector<MaxExpression> allMaxExpression = new Vector<MaxExpression>();
 
 	static Vector<Expression> generate_exact(int depth, Type type, String keywords) {
-		init(allMaxExpression, depth, keywords);
+		initAllMaxExpression(depth, keywords);
 		Vector<Expression> result = new Vector<Expression>();
 		if (depth != 0) {
 			result = getMaxExpressions(depth, type);
@@ -15,7 +15,7 @@ public abstract class Generator {
 		return result;
 	}
 	// initialize allMaxExpression by adding all max Expression under depth
-	private static void init(Vector<MaxExpression> allMaxExpression, int depth, String keywords) {
+	private static void initAllMaxExpression(int depth, String keywords) {
 		for(int i=1 ; i <= depth ; i++) {
 			addAllMaxExpression(allMaxExpression, depth, keywords);
 		}
@@ -57,7 +57,7 @@ public abstract class Generator {
 
 	private Vector<Expression> generateMaxExps_with_depth_or_shallower(int depth, Type type, String keywords) {
 		Vector<Expression> result = new Vector<Expression>();
-		for (int i = 0; i <= depth; i++) {
+		for (int i = 1; i <= depth; i++) {
 			result.addAll(getMaxExpressions(i, type));
 		}
 		selectMaxVarExpressions(result,keywords);
@@ -70,8 +70,8 @@ public abstract class Generator {
 			generateWithSubExps(new Expression[0], result, keywords);
 		} else {
 			generate_with_arity_expression(depth,result,keywords);
-			selectMaxVarExpressions(result,keywords);
 		}
+		selectMaxVarExpressions(result,keywords);
 	}
 
 	private void generate_with_arity_expression(int depth, Vector<Expression> result,

@@ -14,10 +14,7 @@ public class IntGenerator extends Generator {
 
 	void generateWithSubExps(Expression[] subExps, Vector<Expression> result, String keyword) {
 
-		if(allIntExpressionWithTypeT.size() > 0) {
-			result.addAll(allIntExpressionWithTypeT);
-			selectMaxVarExpressions(result,keyword);
-		}
+		result.addAll(allIntExpressionWithTypeT);
 
 	}
 
