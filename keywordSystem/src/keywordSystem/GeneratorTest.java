@@ -84,21 +84,16 @@ class GeneratorTest {
 //		assertEquals(Generator.generate_exact(1, new Type("String"), keyword).get(1).toString(),"b");
 //		assertEquals(Generator.generate_exact(1, new Type("Integer"), keyword).get(0).toString(),"1");
 //		assertEquals(Generator.generate_exact(1, new Type("Integer"), keyword).get(1).toString(),"i");
-		//? why 
-//		Generator.allMaxExpression.clear();
-		Generator.generate_exact(1, new Type("String"), keyword);
+//		Generator.generate_exact(2, new Type("String"), keyword);
+		Generator.initAllMaxExpression(2, keyword);
 		System.out.println(Generator.allMaxExpression.size());
-		System.out.println(Generator.allMaxExpression.get(0).expression.get(0));
-		System.out.println(Generator.allMaxExpression.get(0).expression.get(1));
-		System.out.println(Generator.allMaxExpression.get(1).expression.get(0));
-		System.out.println(Generator.allMaxExpression.get(1).expression.get(1));
-		System.out.println(Generator.allMaxExpression.get(2).expression.get(0));
+//		System.out.println(Generator.allMaxExpression.get(0).expression.get(0));
+//		System.out.println(Generator.allMaxExpression.get(0).expression.get(1));
+//		System.out.println(Generator.allMaxExpression.get(1).expression.get(0));
+//		System.out.println(Generator.allMaxExpression.get(1).expression.get(1));
+//		System.out.println(Generator.allMaxExpression.get(2).expression.get(0));
 //		Generator.generate_exact(2, new Type("String"), keyword).stream().forEach(System.out::println);
 		
-		
-	}
-	@Test
-	void testAllMaxExpressions() {
 		
 	}
 	@Test

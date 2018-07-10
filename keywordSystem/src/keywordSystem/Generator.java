@@ -15,23 +15,25 @@ public abstract class Generator {
 		return result;
 	}
 	// initialize allMaxExpression by adding all max Expression under depth
-	private static void initAllMaxExpression(int depth, String keywords) {
+	public static void initAllMaxExpression(int depth, String keywords) {
 		for(int i=1 ; i <= depth ; i++) {
-			addAllMaxExpression(allMaxExpression, depth, keywords);
+			addAllMaxExpression(depth,keywords);
 		}
 		
 	}
 
-	private static void addAllMaxExpression(Vector<MaxExpression> allMaxExpression, int depth, String keywords) {
+	private static void addAllMaxExpression(int depth, String keywords) {
+		Vector<MaxExpression> allMaxExpInDepth = new Vector<MaxExpression>();
 		for(Type t : new Type().getAllType()) {
 			Vector<Expression> maxExpsWithTypeT = new Vector<Expression>();
 			for(Generator g : Generator.allExpressionGeneratorsWithTypeT(t)) {
 				g.generate_exact_a(depth, maxExpsWithTypeT, keywords);
 			}
 			selectMaxVarExpressions(maxExpsWithTypeT, keywords);
-			allMaxExpression.add(new MaxExpression(depth,t,maxExpsWithTypeT));
+			allMaxExpInDepth.add(new MaxExpression(depth,t,maxExpsWithTypeT));
 		}
-		
+		Generator.allMaxExpression.addAll(allMaxExpInDepth);
+
 	}
 
 	// record the number of expressions in each depth ;; modified later
@@ -49,45 +51,42 @@ public abstract class Generator {
 
 	}
 
-	private Vector<Expression> generateMaxExps_exact(int depth, Type type, String keywords) {
+	private Vector<Expression> generateMaxExps_exact(int depth, Type type) {
 		Vector<Expression> maxExpressions = new Vector<Expression>();
 		maxExpressions = getMaxExpressions(depth, type);
 		return maxExpressions;
 	}
 
-	private Vector<Expression> generateMaxExps_with_depth_or_shallower(int depth, Type type, String keywords) {
+	private Vector<Expression> generateMaxExps_with_depth_or_shallower(int depth, Type type) {
 		Vector<Expression> result = new Vector<Expression>();
 		for (int i = 1; i <= depth; i++) {
 			result.addAll(getMaxExpressions(i, type));
 		}
-		selectMaxVarExpressions(result,keywords);
 		return result;
 	}
 
 	// generate expressions at depth with type_I 
 	protected void generate_exact_a(int depth, Vector<Expression> result, String keywords) {
 		if (arity() == 0 && depth == 1) {
-			generateWithSubExps(new Expression[0], result, keywords);
+			generateWithSubExps(new Expression[0], result);
 		} else {
-			generate_with_arity_expression(depth,result,keywords);
+			generate_with_arity_expression(depth,result);
 		}
-		selectMaxVarExpressions(result,keywords);
 	}
 
-	private void generate_with_arity_expression(int depth, Vector<Expression> result,
-			String keywords) {
+	private void generate_with_arity_expression(int depth, Vector<Expression> result) {
 		int arity = this.arity();
 		for (int exactFlags = 1; exactFlags <= (1 << this.arity()) - 1; exactFlags++) {
 			Expression[] subExps = new Expression[arity];
-			generate_exact_a_at(depth, exactFlags, arity, subExps, result, keywords);
+			generate_exact_a_at(depth, exactFlags, arity, subExps, result);
 		}
 	}
 
 	private void generate_exact_a_at(int depth, int exactFlags, int rank, Expression[] subExps,
-			Vector<Expression> result, String keywords) {
+			Vector<Expression> result) {
 		if (rank == 0) {
 			// all generated, use subExps
-			generateWithSubExps(subExps, result, keywords);
+			generateWithSubExps(subExps, result);
 		} else {
 			Vector<Expression> candidates = isBitOn(exactFlags, rank - 1) ?
 			/*
@@ -96,20 +95,20 @@ public abstract class Generator {
 			 * 10 ==> 10 ==> true 11 01 ==> 01 ==> true
 			 */
 
-					generateMaxExps_exact(depth - 1,this.types()[rank-1], keywords)
-					: generateMaxExps_with_depth_or_shallower(depth - 2, this.types()[rank-1], keywords);
+					generateMaxExps_exact(depth - 1,this.types()[rank-1])
+					: generateMaxExps_with_depth_or_shallower(depth - 2, this.types()[rank-1]);
 
 			// generate subexpression at rank
 			for (Expression e : candidates) {
 				subExps[rank - 1] = e;
-				generate_exact_a_at(depth, exactFlags, rank - 1, subExps, result, keywords);
+				generate_exact_a_at(depth, exactFlags, rank - 1, subExps, result);
 
 			}
 
 		}
 	}
 
-	abstract void generateWithSubExps(Expression[] subExps, Vector<Expression> result, String keywords);
+	abstract void generateWithSubExps(Expression[] subExps, Vector<Expression> result);
 
 	private boolean isBitOn(int x, int i) {
 		return (x & (1 << i)) != 0;

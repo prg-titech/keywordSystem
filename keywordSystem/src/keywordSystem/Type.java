@@ -6,7 +6,7 @@ public class Type {
 	private String type;
 	Vector<Type> subtype = new Vector<Type>();
 	// represent all possible types in whole system
-	static Vector<Type> allType = new Vector<Type>();
+	Vector<Type> allType = new Vector<Type>();
 
 
 	public Type() {

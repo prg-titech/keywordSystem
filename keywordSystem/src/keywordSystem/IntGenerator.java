@@ -12,7 +12,7 @@ public class IntGenerator extends Generator {
 	}
 
 
-	void generateWithSubExps(Expression[] subExps, Vector<Expression> result, String keyword) {
+	void generateWithSubExps(Expression[] subExps, Vector<Expression> result) {
 
 		result.addAll(allIntExpressionWithTypeT);
 

@@ -13,7 +13,7 @@ public class VarGenerator extends Generator {
 	 * and has the bigest score according to keywords
 	 */
 	@Override
-	void generateWithSubExps(Expression[] subExps, Vector<Expression> result,String keyword) {
+	void generateWithSubExps(Expression[] subExps, Vector<Expression> result) {
 		result.addAll(allVarExpressionWithTypeT);
 	}
 
