@@ -4,7 +4,7 @@ package keywordSystem;
 import java.util.Vector;
 
 public abstract class Generator {
-	static Vector<MaxExpression> allMaxExpression = new Vector<MaxExpression>();
+	public static Vector<MaxExpression> allMaxExpression = new Vector<MaxExpression>();
 
 	static Vector<Expression> generate_exact(int depth, Type type, String keywords) {
 		initAllMaxExpression(depth, keywords);
@@ -17,7 +17,7 @@ public abstract class Generator {
 	// initialize allMaxExpression by adding all max Expression under depth
 	public static void initAllMaxExpression(int depth, String keywords) {
 		for(int i=1 ; i <= depth ; i++) {
-			addAllMaxExpression(depth,keywords);
+			addAllMaxExpression(i,keywords);
 		}
 		
 	}
@@ -27,8 +27,15 @@ public abstract class Generator {
 		for(Type t : new Type().getAllType()) {
 			Vector<Expression> maxExpsWithTypeT = new Vector<Expression>();
 			for(Generator g : Generator.allExpressionGeneratorsWithTypeT(t)) {
-				g.generate_exact_a(depth, maxExpsWithTypeT, keywords);
+				g.generate_exact_a(depth, maxExpsWithTypeT);
 			}
+			
+			//generate all Expression
+			System.out.println("Depth : "+ depth + " Type : " + t.toString() + "  size : " + maxExpsWithTypeT.size());
+			maxExpsWithTypeT.stream().forEach(System.out::println);
+			System.out.println("================================");
+			
+			
 			selectMaxVarExpressions(maxExpsWithTypeT, keywords);
 			allMaxExpInDepth.add(new MaxExpression(depth,t,maxExpsWithTypeT));
 		}
@@ -42,7 +49,7 @@ public abstract class Generator {
 		if (depth == 0) {
 		}else {
 			for(MaxExpression maxExp : allMaxExpression) {
-				if (new Type().matchSubtype(type,maxExp.type) && maxExp.depth == depth) {
+				if (maxExp.type.equals(type) && maxExp.depth == depth) {
 					maxExpressions.addAll(maxExp.expression);
 				}
 			}
@@ -66,7 +73,7 @@ public abstract class Generator {
 	}
 
 	// generate expressions at depth with type_I 
-	protected void generate_exact_a(int depth, Vector<Expression> result, String keywords) {
+	protected void generate_exact_a(int depth, Vector<Expression> result) {
 		if (arity() == 0 && depth == 1) {
 			generateWithSubExps(new Expression[0], result);
 		} else {

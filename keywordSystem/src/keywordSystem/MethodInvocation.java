@@ -5,7 +5,6 @@ import java.util.List;
 public class MethodInvocation extends Expression {
 
 	MethodName name;
-	int arity;
 	Expression[] args;
 	public MethodInvocation(MethodName name, Expression[] args) {
 		super();
@@ -18,7 +17,7 @@ public class MethodInvocation extends Expression {
 		StringBuffer result = new StringBuffer();
 		result.append(""+args[0]+"."+name.toString()+"(");
 		String separator = "";
-		for (int i=1;i<arity; i++) {
+		for (int i=1;i<name.types.length; i++) {
 			result.append(separator+args[i]);
 			separator = ",";
 		}

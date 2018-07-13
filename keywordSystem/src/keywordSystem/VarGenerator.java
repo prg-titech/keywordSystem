@@ -35,16 +35,15 @@ public class VarGenerator extends Generator {
 
 	public VarGenerator getVarGenerator(Type t) {
 		Vector<Expression> allVarExpression = this.getAllVarExpression();
-		int size_allVarExp = allVarExpression.size();
-		for(int i=0 ; i<size_allVarExp ; i++) {
-			Expression varExp_I = allVarExpression.get(i);
-			if(varExp_I.getType().equals(t)) {
-				this.allVarExpressionWithTypeT.add(varExp_I);
+		for(Expression varExpression: allVarExpression) {
+			if(varExpression.getType().equals(t)) {
+				this.allVarExpressionWithTypeT.add(varExpression);
 			}
 		}
 		return this;
 		
 	}
+	
 
 
 	@Override
