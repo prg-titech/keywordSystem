@@ -78,8 +78,8 @@ class GeneratorTest {
 //		// if keywords is "s" and want a "String" type expression then the result is "a" & "b"
 //		// if keywords is "a" and want a "Integer" type expression then the result is "1" & "i"
 		
-		String keyword = "concat"; 
-		int depth = 3;
+		String keyword = "+"; 
+		int depth = 2;
 		Type t = new Type("String");
 //		System.out.println(Generator.generate_exact(1, new Type("String"), keyword).size());
 //		assertEquals(Generator.generate_exact(1, new Type("String"), keyword).get(0).toString(),"a");
@@ -95,8 +95,8 @@ class GeneratorTest {
 //		System.out.println(Generator.allMaxExpression.get(1).expression.get(1));
 //		System.out.println(Generator.allMaxExpression.get(2).expression.get(0));
 		System.out.println("Expression in Depth of " + depth +" and with type "+t.toString() + ":");
-		Generator.generate_exact(depth, t, keyword).stream().forEach(System.out::println);
-		System.out.println(Generator.allMaxExpression.get(6).expression.size());
+		Generator.generateExact(depth, t, keyword).stream().forEach(System.out::println);
+//		System.out.println(Generator.allMaxExpression.get(6).expression.size());
 //		System.out.println(Generator.generate_exact(4, new Type("String"), keyword).size());
 		
 		

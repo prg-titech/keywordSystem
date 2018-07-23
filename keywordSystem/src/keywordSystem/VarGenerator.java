@@ -17,6 +17,16 @@ public class VarGenerator extends Generator {
 		result.addAll(allVarExpressionWithTypeT);
 	}
 
+	@Override
+	void addGenerator(Type t, Vector<Generator> allGeneratorWithTypeT) {
+		Vector<Expression> allVarExpression = this.getAllVarExpression();
+		for(Expression varExpression:allVarExpression) {
+			if(varExpression.getType().equals(t)) {
+				this.allVarExpressionWithTypeT.add(varExpression);
+			}
+		}
+		allGeneratorWithTypeT.add(this);
+	}
 
 	private Vector<Expression> getAllVarExpression() {
 		Vector<Expression> allVarExpression = new Vector<Expression>();
@@ -27,28 +37,11 @@ public class VarGenerator extends Generator {
 		return allVarExpression;
 	}
 
-	@Override
-	int arity() {
-		return 0;
-	}
-
-
-	public VarGenerator getVarGenerator(Type t) {
-		Vector<Expression> allVarExpression = this.getAllVarExpression();
-		for(Expression varExpression: allVarExpression) {
-			if(varExpression.getType().equals(t)) {
-				this.allVarExpressionWithTypeT.add(varExpression);
-			}
-		}
-		return this;
-		
-	}
-	
-
 
 	@Override
 	Type[] types() {
 		return new Type[] {};
 	}
+
 
 }

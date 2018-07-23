@@ -5,38 +5,38 @@ import java.util.Vector;
 
 public abstract class Generator {
 	public static Vector<MaxExpression> allMaxExpression = new Vector<MaxExpression>();
-
-	static Vector<Expression> generate_exact(int depth, Type type, String keywords) {
+	abstract Type[] types();
+	abstract void addGenerator(Type t, Vector<Generator> allGeneratorWithTypeT);
+	
+	public static Vector<Expression> generateExact(int depth, Type type, String keywords) {
+		Vector<Expression> result = new Vector<Expression>();		
 		initAllMaxExpression(depth, keywords);
-		Vector<Expression> result = new Vector<Expression>();
 		if (depth != 0) {
-			result = getMaxExpressions(depth, type);
+			result = getMaxExpressionsExactAtDepth(depth, type);
 		}
 		return result;
 	}
 	// initialize allMaxExpression by adding all max Expression under depth
-	public static void initAllMaxExpression(int depth, String keywords) {
+	private static void initAllMaxExpression(int depth, String keywords) {
 		for(int i=1 ; i <= depth ; i++) {
 			addAllMaxExpression(i,keywords);
 		}
 		
 	}
-
+	// add all max expressions to the table in each depth according to the keywords
 	private static void addAllMaxExpression(int depth, String keywords) {
 		Vector<MaxExpression> allMaxExpInDepth = new Vector<MaxExpression>();
 		for(Type t : new Type().getAllType()) {
 			Vector<Expression> maxExpsWithTypeT = new Vector<Expression>();
 			for(Generator g : Generator.allExpressionGeneratorsWithTypeT(t)) {
-				g.generate_exact_a(depth, maxExpsWithTypeT);
+				g.generateExactAtDepth(depth, maxExpsWithTypeT);
 			}
+	
+//			System.out.println("Depth : "+ depth + " Type : " + t.toString() + "  size : " + maxExpsWithTypeT.size());
+//			maxExpsWithTypeT.stream().forEach(System.out::println);
+//			System.out.println("================================");
 			
-			//generate all Expression
-			System.out.println("Depth : "+ depth + " Type : " + t.toString() + "  size : " + maxExpsWithTypeT.size());
-			maxExpsWithTypeT.stream().forEach(System.out::println);
-			System.out.println("================================");
-			
-			
-			selectMaxVarExpressions(maxExpsWithTypeT, keywords);
+			selectMaxExpressions(maxExpsWithTypeT, keywords);
 			allMaxExpInDepth.add(new MaxExpression(depth,t,maxExpsWithTypeT));
 		}
 		Generator.allMaxExpression.addAll(allMaxExpInDepth);
@@ -44,13 +44,14 @@ public abstract class Generator {
 	}
 
 	// record the number of expressions in each depth ;; modified later
-	public static Vector<Expression> getMaxExpressions(int depth, Type type) {
+	// or this should use set instead of vector
+	private static Vector<Expression> getMaxExpressionsExactAtDepth(int depth, Type type) {
 		Vector<Expression> maxExpressions = new Vector<Expression>();
 		if (depth == 0) {
 		}else {
 			for(MaxExpression maxExp : allMaxExpression) {
-				if (maxExp.type.equals(type) && maxExp.depth == depth) {
-					maxExpressions.addAll(maxExp.expression);
+				if (maxExp.getType().equals(type) && maxExp.getDepth() == depth) {
+					maxExpressions.addAll(maxExp.getExpression());
 				}
 			}
 		}
@@ -58,38 +59,33 @@ public abstract class Generator {
 
 	}
 
-	private Vector<Expression> generateMaxExps_exact(int depth, Type type) {
-		Vector<Expression> maxExpressions = new Vector<Expression>();
-		maxExpressions = getMaxExpressions(depth, type);
-		return maxExpressions;
-	}
 
-	private Vector<Expression> generateMaxExps_with_depth_or_shallower(int depth, Type type) {
+	private Vector<Expression> getMaxExpressionsLeqDepth(int depth, Type type) {
 		Vector<Expression> result = new Vector<Expression>();
 		for (int i = 1; i <= depth; i++) {
-			result.addAll(getMaxExpressions(i, type));
+			result.addAll(getMaxExpressionsExactAtDepth(i, type));
 		}
 		return result;
 	}
 
-	// generate expressions at depth with type_I 
-	protected void generate_exact_a(int depth, Vector<Expression> result) {
-		if (arity() == 0 && depth == 1) {
+	// generate expressions at depth
+	protected void generateExactAtDepth(int depth, Vector<Expression> result) {
+		if (this.types().length == 0 && depth == 1) {
 			generateWithSubExps(new Expression[0], result);
 		} else {
-			generate_with_arity_expression(depth,result);
+			generateWithArityExpression(depth,result);
 		}
 	}
 
-	private void generate_with_arity_expression(int depth, Vector<Expression> result) {
-		int arity = this.arity();
-		for (int exactFlags = 1; exactFlags <= (1 << this.arity()) - 1; exactFlags++) {
+	private void generateWithArityExpression(int depth, Vector<Expression> result) {
+		int arity = this.types().length;
+		for (int exactFlags = 1; exactFlags <= (1 << arity) - 1; exactFlags++) {
 			Expression[] subExps = new Expression[arity];
-			generate_exact_a_at(depth, exactFlags, arity, subExps, result);
+			generateWithSubExpsExactAtDepth(depth, exactFlags, arity, subExps, result);
 		}
 	}
 
-	private void generate_exact_a_at(int depth, int exactFlags, int rank, Expression[] subExps,
+	private void generateWithSubExpsExactAtDepth(int depth, int exactFlags, int rank, Expression[] subExps,
 			Vector<Expression> result) {
 		if (rank == 0) {
 			// all generated, use subExps
@@ -102,59 +98,43 @@ public abstract class Generator {
 			 * 10 ==> 10 ==> true 11 01 ==> 01 ==> true
 			 */
 
-					generateMaxExps_exact(depth - 1,this.types()[rank-1])
-					: generateMaxExps_with_depth_or_shallower(depth - 2, this.types()[rank-1]);
+					getMaxExpressionsExactAtDepth(depth - 1,this.types()[rank-1])
+					: getMaxExpressionsLeqDepth(depth - 2, this.types()[rank-1]);
 
 			// generate subexpression at rank
 			for (Expression e : candidates) {
 				subExps[rank - 1] = e;
-				generate_exact_a_at(depth, exactFlags, rank - 1, subExps, result);
+				generateWithSubExpsExactAtDepth(depth, exactFlags, rank - 1, subExps, result);
 
 			}
 
 		}
 	}
-
-	abstract void generateWithSubExps(Expression[] subExps, Vector<Expression> result);
 
 	private boolean isBitOn(int x, int i) {
 		return (x & (1 << i)) != 0;
 	}
-
-	abstract int arity();
-	abstract Type[] types();
+	abstract void generateWithSubExps(Expression[] subExps, Vector<Expression> result);
 /*
  * 引数を加えて、型ごとに違うのgenerator集合を返す。
  */
-	static Vector<Generator> allExpressionGeneratorsWithTypeT(Type t) {
+	private static Vector<Generator> allExpressionGeneratorsWithTypeT(Type t) {
 		Vector<Generator> allGenerator_typeT = new Vector<Generator>();
-			allGenerator_typeT.add(new IntGenerator().getIntGenerator(t));
-			allGenerator_typeT.add(new VarGenerator().getVarGenerator(t));
-			// addBinaryGenerator(allGenerator);
-			addMethodInvocationGenerator(allGenerator_typeT,t);
-
+		for(Generator g:Generator.allExpressionGenerator()) {
+			g.addGenerator(t,allGenerator_typeT);
+		}
 		return allGenerator_typeT;
 	}
-
-	private static void addMethodInvocationGenerator(Vector<Generator> allGenerator_typeT,Type t) {
-		for (MethodName methodName : MethodName.allMethodName()) {
-			if(methodName.matchReceiverType(t)) {
-				MethodInvocationGenerator methodInvGenerator = new MethodInvocationGenerator();
-				methodInvGenerator.setName(methodName);
-				allGenerator_typeT.add(methodInvGenerator);	
-			}
-		}
+	
+	private static Generator[] allExpressionGenerator(){
+		return new Generator[] {
+				new IntGenerator(),new VarGenerator(),
+				new BinaryOpGenerator(),
+				new MethodInvocationGenerator()
+		};
 	}
 
-	private static void addBinaryGenerator(Vector<Generator> allGenerator,Type t) {
-		for (Operator operator : Operator.allOperator()) {
-			BinaryOpGenerator binaryOpGenerator = new BinaryOpGenerator();
-			binaryOpGenerator.setOperator(operator);
-			allGenerator.add(binaryOpGenerator);
-		}
-	}
-
-	public static void selectMaxVarExpressions(Vector<Expression> result, String keywords) {
+	public static void selectMaxExpressions(Vector<Expression> result, String keywords) {
 		if(result.size()>0) {
 			Vector<Expression> temp = new Vector<Expression>();
 			temp.add(result.get(0));
@@ -178,23 +158,5 @@ public abstract class Generator {
 		}
 
 	}
-
-}
-
-class MaxExpression {
-	int depth;
-	Type type;
-	Vector<Expression> expression;
-
-	public MaxExpression() {
-
-	}
-
-	public MaxExpression(int depth, Type type, Vector<Expression> expression) {
-		this.depth = depth;
-		this.type = type;
-		this.expression = expression;
-	}
-
 
 }

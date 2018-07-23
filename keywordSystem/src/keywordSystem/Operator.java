@@ -13,6 +13,7 @@ public class Operator {
 	public static Vector<Operator> allOperator() {
 		Vector<Operator> allOperator = new Vector<Operator>();
 		allOperator.add(new Operator("+",new Type[] {new Type("Integer"),new Type("Integer")}));
+		allOperator.add(new Operator("+",new Type[] {new Type("String"),new Type("String")}));
 		return allOperator;
 	}
 	

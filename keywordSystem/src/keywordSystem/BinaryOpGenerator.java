@@ -10,11 +10,7 @@ public class BinaryOpGenerator extends Generator {
 
 	}
 
-	@Override
-	int arity() {
-		// TODO Auto-generated method stub
-		return 2;
-	}
+
 
 	public void setOperator(Operator operator) {
 		this.operator=operator;
@@ -25,6 +21,20 @@ public class BinaryOpGenerator extends Generator {
 	Type[] types() {
 		// TODO Auto-generated method stub
 		return operator.types;
+	}
+
+
+
+	@Override
+	void addGenerator(Type t, Vector<Generator> allGeneratorWithTypeT) {
+		for (Operator operator : Operator.allOperator()) {
+			if(operator.types[0].equals(t)) {
+				BinaryOpGenerator binOpGenerator = new BinaryOpGenerator();
+				binOpGenerator.operator = operator;
+				allGeneratorWithTypeT.add(binOpGenerator);
+			}
+		}
+		
 	}
 
 	

@@ -5,11 +5,6 @@ import java.util.Vector;
 public class MethodInvocationGenerator extends Generator {
 	MethodName name;
 	
-	int arity() {
-		//部分式の型のlist
-		return name.types.length;
-	}
-	
 	@Override
 	void generateWithSubExps(Expression[] subExps, Vector<Expression> result) {
 
@@ -25,6 +20,17 @@ public class MethodInvocationGenerator extends Generator {
 	Type[] types() {
 		// TODO Auto-generated method stub
 		return name.types;
+	}
+
+	@Override
+	void addGenerator(Type t, Vector<Generator> allGeneratorWithTypeT) {
+		for (MethodName methodName : MethodName.allMethodName()) {
+			if(methodName.matchReceiverType(t)) {
+				MethodInvocationGenerator methodInvGenerator = new MethodInvocationGenerator();
+				methodInvGenerator.setName(methodName);
+				allGeneratorWithTypeT.add(methodInvGenerator);
+			}
+		}
 	}
 
 
