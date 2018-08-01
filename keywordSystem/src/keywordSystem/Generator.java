@@ -1,16 +1,42 @@
 package keywordSystem;
 
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 //import java.util.Collection;
 import java.util.Vector;
 
 public abstract class Generator {
 	public static Vector<MaxExpression> allMaxExpression = new Vector<MaxExpression>();
+	public static Map<Type,Vector<Expression>> maxExpressions_BeamWidth = new HashMap<>();
 	abstract Type[] types();
 	abstract void addGenerator(Type t, Vector<Generator> allGeneratorWithTypeT);
+	public static final int BEAMWIDTH = 10;
 	
+	public static Vector<Expression> generateExact(int depth,String keywords){
+		Vector<Expression> result = new Vector<Expression>();
+		initMaxExpression_BeamWidth();
+		initAllMaxExpression(depth,keywords);
+		for(Vector<Expression> exps :  maxExpressions_BeamWidth.values()) {
+			result.addAll(exps);
+		}
+		Generator.selectMaxExpressions(result, keywords);
+		return result;
+		
+	}
+
+
+	private static void initMaxExpression_BeamWidth() {
+		for(Type t:new Type().getAllType()) {
+			Generator.maxExpressions_BeamWidth.put(t, new Vector<Expression>());
+		}
+		
+	}
 	public static Vector<Expression> generateExact(int depth, Type type, String keywords) {
 		Vector<Expression> result = new Vector<Expression>();		
-		initAllMaxExpression(depth, keywords);
 		if (depth != 0) {
 			result = getMaxExpressionsExactAtDepth(depth, type);
 		}
@@ -18,6 +44,9 @@ public abstract class Generator {
 	}
 	// initialize allMaxExpression by adding all max Expression under depth
 	private static void initAllMaxExpression(int depth, String keywords) {
+		/*
+		 * exception when depth <= 0;
+		 */
 		for(int i=1 ; i <= depth ; i++) {
 			addAllMaxExpression(i,keywords);
 		}
@@ -31,18 +60,23 @@ public abstract class Generator {
 			for(Generator g : Generator.allExpressionGeneratorsWithTypeT(t)) {
 				g.generateExactAtDepth(depth, maxExpsWithTypeT);
 			}
-	
-//			System.out.println("Depth : "+ depth + " Type : " + t.toString() + "  size : " + maxExpsWithTypeT.size());
-//			maxExpsWithTypeT.stream().forEach(System.out::println);
-//			System.out.println("================================");
 			
 			selectMaxExpressions(maxExpsWithTypeT, keywords);
 			allMaxExpInDepth.add(new MaxExpression(depth,t,maxExpsWithTypeT));
+			rearrangeMaxExpressions_BeamWidth(maxExpsWithTypeT,t,keywords);
+//			System.out.println("Depth : "+ depth + " Type : " + t.toString() + "  size : " + maxExpsWithTypeT.size());
+//			maxExpsWithTypeT.stream().forEach(System.out::println);
+//			System.out.println("================================");
 		}
 		Generator.allMaxExpression.addAll(allMaxExpInDepth);
 
 	}
 
+	private static void rearrangeMaxExpressions_BeamWidth(Vector<Expression> maxExpsWithTypeT, Type t,String keywords) {
+		maxExpsWithTypeT.addAll(maxExpressions_BeamWidth.get(t));
+		selectMaxExpressions(maxExpsWithTypeT,keywords);
+		maxExpressions_BeamWidth.put(t,maxExpsWithTypeT);
+	}
 	// record the number of expressions in each depth ;; modified later
 	// or this should use set instead of vector
 	private static Vector<Expression> getMaxExpressionsExactAtDepth(int depth, Type type) {
@@ -62,8 +96,11 @@ public abstract class Generator {
 
 	private Vector<Expression> getMaxExpressionsLeqDepth(int depth, Type type) {
 		Vector<Expression> result = new Vector<Expression>();
-		for (int i = 1; i <= depth; i++) {
-			result.addAll(getMaxExpressionsExactAtDepth(i, type));
+//		for (int i = 1; i <= depth; i++) {
+//			result.addAll(getMaxExpressionsExactAtDepth(i, type));
+//		}
+		if(depth >= 1) {
+			result.addAll(maxExpressions_BeamWidth.get(type));	
 		}
 		return result;
 	}
@@ -135,27 +172,32 @@ public abstract class Generator {
 	}
 
 	public static void selectMaxExpressions(Vector<Expression> result, String keywords) {
-		if(result.size()>0) {
-			Vector<Expression> temp = new Vector<Expression>();
-			temp.add(result.get(0));
-			int size_result = result.size();
-			float scoreMax = result.get(0).getScore(keywords);
-			for (int i = 1; i < size_result; i++) {
-				Expression resultI = result.get(i);
-				float scoreI = resultI.getScore(keywords);
-				if (scoreI > scoreMax) {
-					temp.clear();
-					temp.add(resultI);
-					scoreMax = scoreI;
-				} else {
-					if (scoreI == scoreMax) {
-						temp.add(resultI);
-					}
+		Collections.sort(result,new Comparator<Expression>() {
+			@Override
+			public int compare(Expression e1, Expression e2) {
+				// TODO Auto-generated method stub
+				if(e1.getScore(keywords)>e2.getScore(keywords)) {
+					return -1;
+				}else if(e1.getScore(keywords) == e2.getScore(keywords)) {
+					return 0;
+				}else {
+					return 1;
 				}
 			}
-			result.clear();
-			result.addAll(temp);
+			
+		});
+		Vector<Expression> temp = new Vector<Expression>();
+		int count = 0;
+		while(count < BEAMWIDTH) {
+			if(count < result.size()) {
+				temp.add(result.get(count));
+			}else {
+				break;
+			}
+			count ++;
 		}
+		result.clear();
+		result.addAll(temp);
 
 	}
 
