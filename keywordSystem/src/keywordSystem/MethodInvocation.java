@@ -32,7 +32,7 @@ public class MethodInvocation extends Expression {
 	}
 	@Override
 	public float getScore(List<String> keywords) {
-		float score = 0;
+		float score = Expression.DEFSCORE;
 		score = this.name.getScore(keywords);
 		for(int i = 0; i < args.length; i++){
 			score = addPrecise(score,args[i].getScore(keywords));

@@ -41,15 +41,22 @@ public class Var extends Expression {
 	public float getScore(List<String> keywords) {
 		float score = addPrecise(DEFSCORE,LMVAR);
 		List<String> name_label = this.label();
-		int words_size = name_label.size();
+		for(String word : name_label) {
+			if(keywords.contains(word)) {
+				score = addPrecise(score,WIK);
+				keywords.remove(word);
+			}else{
+				score = addPrecise(score,-WNIK);
+			}
+		}
+		/*int words_size = name_label.size();
 		for(int i = 0; i < words_size; i++) {
 			if (keywords.contains(name_label.get(i))) {
 				score = addPrecise(score, WIK);
-
 			} else {
 				score = addPrecise(score, -WNIK);
 			}	
-		}
+		}*/
 
 		return score;
 	}

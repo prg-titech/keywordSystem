@@ -27,6 +27,7 @@ public class Int extends Expression {
 		float score = addPrecise(DEFSCORE,LMVAR);
 		if (keywords.contains(i+"")) {
 			score = addPrecise(score, WIK);
+			keywords.remove(i+"");
 
 		} else {
 			score = addPrecise(score, -WNIK);

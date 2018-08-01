@@ -14,7 +14,7 @@ public abstract class Generator {
 	public static Map<Type,Vector<Expression>> maxExpressions_BeamWidth = new HashMap<>();
 	abstract Type[] types();
 	abstract void addGenerator(Type t, Vector<Generator> allGeneratorWithTypeT);
-	public static final int BEAMWIDTH = 10;
+	public static final int BEAMWIDTH = 6;
 	
 	public static Vector<Expression> generateExact(int depth,String keywords){
 		Vector<Expression> result = new Vector<Expression>();

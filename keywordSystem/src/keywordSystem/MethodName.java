@@ -3,16 +3,11 @@ package keywordSystem;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Vector;
+import keywordSystem.Expression;
 
 public class MethodName {
 	String name;
 	Type[] types;
-	// default score is -0.05
-	public static final float DEFSCORE = -0.05f;
-	// add 1.00 when words in keywords query
-	public static final float WIK = 1.00f;
-	// subtract 0.01 when words not in keywords query
-	public static final float WNIK = 0.01f;
 
 	public MethodName(String name, Type[] types) {
 		this.name = name;
@@ -49,23 +44,19 @@ public class MethodName {
 	}
 
 	public float getScore(List<String> keywords) {
-		float score = DEFSCORE;
+		float score = Expression.DEFSCORE;
 		List<String> name_label = this.label();
-		int words_size = name_label.size();
-		for(int i = 0; i < words_size; i++) {
-			if (keywords.contains(name_label.get(i))) {
-				score = addPrecise(score, WIK);
-
-			} else {
-				score = addPrecise(score, -WNIK);
-			}	
+		for(String word : name_label) {
+			if(keywords.contains(word)) {
+				score = Expression.addPrecise(score,Expression.WIK);
+				keywords.remove(word);
+			}else{
+				score = Expression.addPrecise(score,-Expression.WNIK);
+			}
 		}
 		return score;
 	}
 	
-	public float addPrecise(float num1, float num2) {
-		return new BigDecimal(Float.toString(num1)).add(new BigDecimal(Float.toString(num2))).floatValue();
-	}
 	
 	
 

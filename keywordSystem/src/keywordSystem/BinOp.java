@@ -50,10 +50,12 @@ public class BinOp extends Expression {
 	@Override
 	public float getScore(List<String> keywords) {
 		float score = 0;
+		// if score_operand1 = operand2 then just add 1
 		float score_operand1 = this.getOperand1().getScore(keywords);
 		float score_operand2 = this.getOperand2().getScore(keywords);
+		float score_operator = this.getOperator().getScore(keywords);
 		
-		score = addPrecise(score_operand1,score_operand2);
+		score = addPrecise(score_operator,addPrecise(score_operand1,score_operand2));
 		return score;
 	}
 

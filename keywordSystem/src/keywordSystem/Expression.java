@@ -1,8 +1,10 @@
 package keywordSystem;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import keywordSystem.Type;
 
@@ -22,14 +24,19 @@ public abstract class Expression {
 	abstract public Type getType();
 
 	public float getScore(String keywords) {
-		return this.getScore(Arrays.asList(keywords.toLowerCase().split("[^\\w]")));
+		return this.getScore(splitKeyword(keywords));
+	}
+
+	private List<String> splitKeyword(String keywords) {
+		return Arrays.asList(keywords.toLowerCase().split("[^\\w]")).stream().distinct().collect(Collectors.toList());
+//		return new ArrayList<String>(Arrays.asList(keywords.toLowerCase().split("[^\\w]")));
 	}
 
 	abstract float getScore(List<String> keywords);
 
 
 	// define add function with using BigDecimal class
-	public float addPrecise(float num1, float num2) {
+	public static float addPrecise(float num1, float num2) {
 		return new BigDecimal(Float.toString(num1)).add(new BigDecimal(Float.toString(num2))).floatValue();
 	}
 }
