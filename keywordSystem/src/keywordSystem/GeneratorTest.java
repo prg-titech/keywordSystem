@@ -41,12 +41,12 @@ class GeneratorTest {
 	
 	@Test
 	void testGetScore() {
-		String keyword = "add line";
-		Var var1 = new Var("src", new Type("BufferReader"));
-		// src ==> -0.059
-		assertEquals(-0.059f, var1.getScore(keyword), 0);
-		// 1 ==> -0.06
-		assertEquals(-0.059f,new Int(1).getScore(keyword),0);
+//		String keyword = "add line";
+//		Var var1 = new Var("src", new Type("BufferReader"));
+//		// src ==> -0.059
+//		assertEquals(-0.059f, var1.getScore(keyword), 0);
+//		// 1 ==> -0.06
+//		assertEquals(-0.059f,new Int(1).getScore(keyword),0);
 		// readLine() : BufferReader ==> String
 //		MethodName mname1 = new MethodName("readLine",
 //				new Type[] {new Type("String"),new Type("BufferReader")});
@@ -64,9 +64,9 @@ class GeneratorTest {
 //		// array.add(src.readLine()) ==> 1.772
 //		assertEquals(1.772f,exp2.getScore(keyword),0);
 //		
-		keyword = "add line add";
-		Var var_split_test = new Var("add",new Type("T"));
-		assertEquals(0.951f, var_split_test.getScore(keyword), 0);
+//		keyword = "add line add";
+//		Var var_split_test = new Var("add",new Type("T"));
+//		assertEquals(0.951f, var_split_test.getScore(keyword), 0);
 		
 	}
 	@Test
@@ -83,7 +83,7 @@ class GeneratorTest {
 //		// if keywords is "a" and want a "Integer" type expression then the result is "1" & "i"
 		 
 		String keyword = "src add line"; 
-		int depth = 9;
+		int depth = 5;
 //		System.out.println(Generator.generate_exact(1, new Type("String"), keyword).size());
 //		assertEquals(Generator.generate_exact(1, new Type("String"), keyword).get(0).toString(),"a");
 //		assertEquals(Generator.generate_exact(1, new Type("String"), keyword).get(1).toString(),"b");

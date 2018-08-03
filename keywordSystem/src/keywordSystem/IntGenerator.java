@@ -3,11 +3,11 @@ package keywordSystem;
 import java.util.Vector;
 
 public class IntGenerator extends Generator {
-	static Vector<Expression> allIntExpressionWithTypeT = new Vector<Expression>();
+ Vector<Expression> allIntExpressionWithTypeT = new Vector<Expression>();
 	@Override
 	void addGenerator(Type t, Vector<Generator> allGeneratorWithTypeT) {
 		if(t.equals(new Type("Integer"))) {
-			allIntExpressionWithTypeT = this.getAllIntExpression();
+			this.allIntExpressionWithTypeT.addAll(this.getAllIntExpression());
 		}
 		allGeneratorWithTypeT.add(this);
 	}
