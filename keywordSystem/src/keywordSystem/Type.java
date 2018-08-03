@@ -37,6 +37,7 @@ public class Type {
 		allType.add(new Type("Integer"));
 		allType.add(new Type("BufferReader"));
 		allType.add(new Type("boolean"));
+		allType.add(new Type("List<String>"));
 		return allType;
 	}
 	

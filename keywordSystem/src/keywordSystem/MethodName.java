@@ -12,6 +12,7 @@ public class MethodName {
 
 	public MethodName(String name, Type receiveType,Type[] types) {
 		this.name = name;
+		this.receiveType = receiveType;
 		this.types = types;
 	}
 
@@ -36,7 +37,9 @@ public class MethodName {
 
 		Vector<MethodName> allMethodName = new Vector<MethodName>();
 		allMethodName.add(new MethodName("concat", new Type("String"),new Type[] {new Type("String"), new Type("String") }));
-		allMethodName.add(new MethodName("add", new Type("boolean"),new Type[] { new Type("String") }));
+//		allMethodName.add(new MethodName("add", new Type("boolean"),new Type[] { new Type("String") }));
+		allMethodName.add(new MethodName("readLine",new Type("String"),new Type[] {new Type("BufferReader")}));
+		allMethodName.add(new MethodName("add",new Type("boolean"),new Type[] {new Type("List<String>"),new Type("String")}));
 		return allMethodName;
 	}
 

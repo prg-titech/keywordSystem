@@ -34,6 +34,7 @@ public class VarGenerator extends Generator {
 		allVarExpression.add(new Var("b",new Type("String")));
 		allVarExpression.add(new Var("src",new Type("BufferReader")));
 		allVarExpression.add(new Var("i",new Type("Integer")));
+		allVarExpression.add(new Var("array",new Type("List<String>")));
 		return allVarExpression;
 	}
 

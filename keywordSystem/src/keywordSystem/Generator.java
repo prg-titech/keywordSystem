@@ -67,13 +67,13 @@ public abstract class Generator {
 	}
 	
 	
-	public static Vector<Expression> generateExact(int depth, Type type, String keywords) {
-		Vector<Expression> result = new Vector<Expression>();		
-		if (depth != 0) {
-			result = getMaxExpressionsExactAtDepth(depth, type);
-		}
-		return result;
-	}
+//	public static Vector<Expression> generateExact(int depth, Type type, String keywords) {
+//		Vector<Expression> result = new Vector<Expression>();		
+//		if (depth != 0) {
+//			result = getMaxExpressionsExactAtDepth(depth, type);
+//		}
+//		return result;
+//	}
 	// add all max expressions to the table in each depth according to the keywords
 	private static void addAllMaxExpression(int depth, String keywords) {
 		Vector<MaxExpression> allMaxExpInDepth = new Vector<MaxExpression>();
@@ -118,9 +118,7 @@ public abstract class Generator {
 
 	private Vector<Expression> getMaxExpressionsLeqDepth(int depth, Type type) {
 		Vector<Expression> result = new Vector<Expression>();
-//		for (int i = 1; i <= depth; i++) {
-//			result.addAll(getMaxExpressionsExactAtDepth(i, type));
-//		}
+
 		if(depth >= 1) {
 			result.addAll(maxExpressions_BeamWidth.get(type));	
 		}

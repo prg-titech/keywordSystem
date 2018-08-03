@@ -49,14 +49,6 @@ public class Var extends Expression {
 				score = addPrecise(score,-WNIK);
 			}
 		}
-		/*int words_size = name_label.size();
-		for(int i = 0; i < words_size; i++) {
-			if (keywords.contains(name_label.get(i))) {
-				score = addPrecise(score, WIK);
-			} else {
-				score = addPrecise(score, -WNIK);
-			}	
-		}*/
 
 		return score;
 	}
