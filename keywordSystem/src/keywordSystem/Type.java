@@ -6,7 +6,7 @@ public class Type {
 	private String type;
 	Vector<Type> subtype = new Vector<Type>();
 	// represent all possible types in whole system
-	Vector<Type> allType = new Vector<Type>();
+	static Vector<Type> allType = new Vector<Type>();
 
 
 	public Type() {
@@ -32,15 +32,12 @@ public class Type {
 		return subtype;
 	}
 	
-	public Vector<Type> getAllType() {
+	public static Vector<Type> initAllType() {
 		allType.add(new Type("String"));
 		allType.add(new Type("Integer"));
 		allType.add(new Type("BufferReader"));
+		allType.add(new Type("boolean"));
 		return allType;
-	}
-
-	public void setAllType(Vector<Type> allType) {
-		this.allType = allType;
 	}
 	
 	public boolean matchSubtype(Type type, Type ExpressionType) {

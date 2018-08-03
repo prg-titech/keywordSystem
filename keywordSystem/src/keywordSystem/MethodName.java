@@ -1,15 +1,16 @@
 package keywordSystem;
 
-import java.math.BigDecimal;
+
 import java.util.List;
 import java.util.Vector;
 import keywordSystem.Expression;
 
 public class MethodName {
 	String name;
+	Type receiveType;
 	Type[] types;
 
-	public MethodName(String name, Type[] types) {
+	public MethodName(String name, Type receiveType,Type[] types) {
 		this.name = name;
 		this.types = types;
 	}
@@ -20,26 +21,22 @@ public class MethodName {
 	}
 
 	public Type returnType() {
-		return types[0];
+		return this.receiveType;
 	}
 
 	public List<String> label() {
 		return new Label().convertToLabel(name).label;
 	}
 
-	public boolean matchType(Type type, int pos) {
-		return type.equals(types[pos]);
-	}
-
 	public boolean matchReceiverType(Type type) {
-		return this.matchType(type, 0);
+		return type.equals(this.receiveType);
 	}
 
 	public static Vector<MethodName> allMethodName() {
 
 		Vector<MethodName> allMethodName = new Vector<MethodName>();
-		allMethodName.add(new MethodName("concat", new Type[] { new Type("String"), new Type("String") }));
-		allMethodName.add(new MethodName("add", new Type[] { new Type("String") }));
+		allMethodName.add(new MethodName("concat", new Type("String"),new Type[] {new Type("String"), new Type("String") }));
+		allMethodName.add(new MethodName("add", new Type("boolean"),new Type[] { new Type("String") }));
 		return allMethodName;
 	}
 

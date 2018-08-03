@@ -48,22 +48,22 @@ class GeneratorTest {
 		// 1 ==> -0.06
 		assertEquals(-0.059f,new Int(1).getScore(keyword),0);
 		// readLine() : BufferReader ==> String
-		MethodName mname1 = new MethodName("readLine",
-				new Type[] {new Type("String"),new Type("BufferReader")});
-		Expression[] args1 = new Expression[] {var1};
-		// src.readLine() ==> 0.881
-		Expression exp1 = new MethodInvocation(mname1,args1);
-		assertEquals(0.881f,exp1.getScore(keyword),0);
-		Var var2 = new Var("array", new Type("List<String>"));
-		// array ==> -0.059
-		assertEquals(-0.059f, var2.getScore(keyword), 0);
-		MethodName mname2 = new MethodName("add",
-				new Type[] {new Type("boolean"),new Type("List<String>")});
-		Expression[] args2 = new Expression[]{var2,exp1};
-		Expression exp2 = new MethodInvocation(mname2,args2);
-		// array.add(src.readLine()) ==> 1.772
-		assertEquals(1.772f,exp2.getScore(keyword),0);
-		
+//		MethodName mname1 = new MethodName("readLine",
+//				new Type[] {new Type("String"),new Type("BufferReader")});
+//		Expression[] args1 = new Expression[] {var1};
+//		// src.readLine() ==> 0.881
+//		Expression exp1 = new MethodInvocation(mname1,args1);
+//		assertEquals(0.881f,exp1.getScore(keyword),0);
+//		Var var2 = new Var("array", new Type("List<String>"));
+//		// array ==> -0.059
+//		assertEquals(-0.059f, var2.getScore(keyword), 0);
+//		MethodName mname2 = new MethodName("add",
+//				new Type[] {new Type("boolean"),new Type("List<String>")});
+//		Expression[] args2 = new Expression[]{var2,exp1};
+//		Expression exp2 = new MethodInvocation(mname2,args2);
+//		// array.add(src.readLine()) ==> 1.772
+//		assertEquals(1.772f,exp2.getScore(keyword),0);
+//		
 		keyword = "add line add";
 		Var var_split_test = new Var("add",new Type("T"));
 		assertEquals(0.951f, var_split_test.getScore(keyword), 0);
@@ -81,10 +81,10 @@ class GeneratorTest {
 //		assertEquals(Generator.generate_exact(1, new Type("String"), keyword).get(0).toString(),"b");
 //		// if keywords is "s" and want a "String" type expression then the result is "a" & "b"
 //		// if keywords is "a" and want a "Integer" type expression then the result is "1" & "i"
-		
+		 
 		String keyword = "a concat b"; 
-		int depth = 10;
-		Type t = new Type("String");
+		int depth = 5;
+		Type t = new Type("boolean");
 //		System.out.println(Generator.generate_exact(1, new Type("String"), keyword).size());
 //		assertEquals(Generator.generate_exact(1, new Type("String"), keyword).get(0).toString(),"a");
 //		assertEquals(Generator.generate_exact(1, new Type("String"), keyword).get(1).toString(),"b");
@@ -100,7 +100,7 @@ class GeneratorTest {
 //		System.out.println(Generator.allMaxExpression.get(2).expression.get(0));
 		System.out.println("Expression in Depth of " + depth +" and with type "+t.toString() + ":");
 //		Generator.generateExact(depth, t, keyword);
-		Generator.generateExact(depth, keyword).stream().forEach(System.out::println);
+		Generator.generateExact(depth,t, keyword).stream().forEach(System.out::println);
 //		System.out.println(Generator.generateExact(depth, keyword).size());
 		
 //		System.out.println(Generator.allMaxExpression.get(6).expression.size());

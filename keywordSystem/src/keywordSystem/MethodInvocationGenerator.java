@@ -18,9 +18,10 @@ public class MethodInvocationGenerator extends Generator {
 
 	@Override
 	Type[] types() {
-		// TODO Auto-generated method stub
+		
 		return name.types;
 	}
+
 
 	@Override
 	void addGenerator(Type t, Vector<Generator> allGeneratorWithTypeT) {

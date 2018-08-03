@@ -4,37 +4,69 @@ package keywordSystem;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
-//import java.util.Collection;
 import java.util.Vector;
+import keywordSystem.Type;
 
 public abstract class Generator {
-	public static Vector<MaxExpression> allMaxExpression = new Vector<MaxExpression>();
-	public static Map<Type,Vector<Expression>> maxExpressions_BeamWidth = new HashMap<>();
-	abstract Type[] types();
-	abstract void addGenerator(Type t, Vector<Generator> allGeneratorWithTypeT);
-	public static final int BEAMWIDTH = 6;
+	/*
+	 * the constant using in beam search.
+	 */
+	public static int BEAMWIDTH = 6;
 	
+	public static void setBeamWidth(int i) {
+		Generator.BEAMWIDTH=i;
+	}
+	/*
+	 * store first BEAMWIDTH-th expressions with max score in each depth and each types.
+	 */
+	public static Vector<MaxExpression> allMaxExpression;
+	/*
+	 * store first BEAMWIDTH-th expressions with max score in each types.
+	 */
+	public static Map<Type,Vector<Expression>> maxExpressions_BeamWidth = new HashMap<>();
+	/*
+	 * return the type array of each parameter.
+	 */
+	abstract Type[] types();
+	/*
+	 * Add all generators which extends Class Generator
+	 */
+	abstract void addGenerator(Type t, Vector<Generator> allGeneratorWithTypeT);
+	
+	/*
+	 * most important function in this class. 
+	 * generate first BEAMWIDTH-th expressions with max score using beam search.
+	 * which means is not the optimal solution.
+	 */
 	public static Vector<Expression> generateExact(int depth,String keywords){
 		Vector<Expression> result = new Vector<Expression>();
+		Type.initAllType();
 		initMaxExpression_BeamWidth();
-		initAllMaxExpression(depth,keywords);
+		initAllMaxExpression();
+		for(int i=1 ; i <= depth ; i++) {
+			addAllMaxExpression(i,keywords);
+		}
 		for(Vector<Expression> exps :  maxExpressions_BeamWidth.values()) {
 			result.addAll(exps);
 		}
 		Generator.selectMaxExpressions(result, keywords);
-		return result;
-		
+		return result;		
 	}
-
-
+/*
+ * 	initialization
+ */
+	private static void initAllMaxExpression() {
+		Generator.allMaxExpression = new Vector<MaxExpression>();
+	}
 	private static void initMaxExpression_BeamWidth() {
-		for(Type t:new Type().getAllType()) {
+		for(Type t:Type.allType) {
 			Generator.maxExpressions_BeamWidth.put(t, new Vector<Expression>());
 		}
 		
 	}
+	
+	
 	public static Vector<Expression> generateExact(int depth, Type type, String keywords) {
 		Vector<Expression> result = new Vector<Expression>();		
 		if (depth != 0) {
@@ -42,20 +74,10 @@ public abstract class Generator {
 		}
 		return result;
 	}
-	// initialize allMaxExpression by adding all max Expression under depth
-	private static void initAllMaxExpression(int depth, String keywords) {
-		/*
-		 * exception when depth <= 0;
-		 */
-		for(int i=1 ; i <= depth ; i++) {
-			addAllMaxExpression(i,keywords);
-		}
-		
-	}
 	// add all max expressions to the table in each depth according to the keywords
 	private static void addAllMaxExpression(int depth, String keywords) {
 		Vector<MaxExpression> allMaxExpInDepth = new Vector<MaxExpression>();
-		for(Type t : new Type().getAllType()) {
+		for(Type t : Type.allType) {
 			Vector<Expression> maxExpsWithTypeT = new Vector<Expression>();
 			for(Generator g : Generator.allExpressionGeneratorsWithTypeT(t)) {
 				g.generateExactAtDepth(depth, maxExpsWithTypeT);
@@ -109,7 +131,7 @@ public abstract class Generator {
 	protected void generateExactAtDepth(int depth, Vector<Expression> result) {
 		if (this.types().length == 0 && depth == 1) {
 			generateWithSubExps(new Expression[0], result);
-		} else {
+		} else if(depth > 1){
 			generateWithArityExpression(depth,result);
 		}
 	}
