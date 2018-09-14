@@ -82,28 +82,12 @@ class GeneratorTest {
 //		// if keywords is "s" and want a "String" type expression then the result is "a" & "b"
 //		// if keywords is "a" and want a "Integer" type expression then the result is "1" & "i"
 		 
-		String keyword = "src add line"; 
-		int depth = 5;
-//		System.out.println(Generator.generate_exact(1, new Type("String"), keyword).size());
-//		assertEquals(Generator.generate_exact(1, new Type("String"), keyword).get(0).toString(),"a");
-//		assertEquals(Generator.generate_exact(1, new Type("String"), keyword).get(1).toString(),"b");
-//		assertEquals(Generator.generate_exact(1, new Type("Integer"), keyword).get(0).toString(),"1");
-//		assertEquals(Generator.generate_exact(1, new Type("Integer"), keyword).get(1).toString(),"i");
-//		Generator.generate_exact(2, new Type("String"), keyword);
-//		Generator.initAllMaxExpression(2, keyword);
-//		System.out.println(Generator.allMaxExpression.size());
-//		System.out.println(Generator.allMaxExpression.get(0).expression.get(0));
-//		System.out.println(Generator.allMaxExpression.get(0).expression.get(1));
-//		System.out.println(Generator.allMaxExpression.get(1).expression.get(0));
-//		System.out.println(Generator.allMaxExpression.get(1).expression.get(1));
-//		System.out.println(Generator.allMaxExpression.get(2).expression.get(0));
-		System.out.println("Expression in Depth of " + depth +":");
-//		Generator.generateExact(depth, t, keyword);
-		Generator.generateExact(depth, keyword).stream().forEach(System.out::println);
-//		System.out.println(Generator.generateExact(depth, keyword).size());
+		String keyword = "add line"; 
+		Generator.setBeamWidth(6);
 		
-//		System.out.println(Generator.allMaxExpression.get(6).expression.size());
-//		System.out.println(Generator.generate_exact(4, new Type("String"), keyword).size());
+		int depth = 10;
+		System.out.println("Expression in Depth of " + depth +":");
+		Generator.generateExact(depth, keyword).stream().forEach(System.out::println);
 		
 		
 	}
@@ -122,5 +106,9 @@ class GeneratorTest {
 //		gs.addAll(Generator.allExpressionGeneratorsWithTypeT(new Type("String")));
 //		assertEquals(gs.size(),4);
 	}
-	
+	@Test
+	void testGenerateExactExpression() {
+		String keyword = "add line";
+		int depth = 3;
+	}
 }
